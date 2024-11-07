@@ -1,21 +1,27 @@
 import { useState } from 'react'
+import { ToastContainer } from 'react-toastify';
 
+import 'react-toastify/dist/ReactToastify.css';
 import './App.css'
-import Navbar from './components/Navbar'
-import Navbar1 from './components/Navbar1'
-import Card from './components/Card'
-import Footer from './components/Footer'
-import Login from './components/Login'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+import Home from './pages/Home/Home'
+import AdForm from './pages/AdForm/AdForm';
+
 
 function App() {
 
   return (
-    <>
-      <Navbar />
-      <Navbar1 />
-      <Login />
-      <Footer />
-    </>
+    <div>
+      <ToastContainer theme='dark' />
+      <Router>
+        <Routes>
+          <Route path='/' element={ <Home />} />
+          <Route path='/sell' element={ <AdForm />} />
+        </Routes>
+      </Router>
+    </div>
+    
   )
 }
 

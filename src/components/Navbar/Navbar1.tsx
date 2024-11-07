@@ -1,4 +1,6 @@
 import React from "react";
+import arrow from "../../assets/arrow.png"
+
 
 const Navbar1 = () => {
   return (
@@ -7,19 +9,11 @@ const Navbar1 = () => {
         <div className="">
           <button className="flex items-center space-x-2 text-black">
             <span className="font-bold">ALL CATEGORIES</span>
-            <svg
-          width="24px"
-          height="24px"
-          viewBox="0 0 1024 1024"
-          data-aut-id="icon"
-          className=""
-          fillRule="evenodd"
-        >
-          <path
-            className="rui-w4DG7"
-            d="M85.392 277.333h60.331l366.336 366.336 366.336-366.336h60.331v60.331l-408.981 409.003h-35.307l-409.045-409.003z"
-          ></path>
-        </svg>
+            <img 
+              className="w-6 h-6"
+              src={arrow} 
+              
+                alt="" />
           </button>
         </div>
 
