@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import { useState, ChangeEvent, FormEvent } from 'react';
 import { CategoryModal } from '../../components/CategoryModal/CategoryModal';
 import { toast } from 'react-toastify';
 import { db } from '../../firebase';
@@ -6,10 +6,12 @@ import { collection, addDoc } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 
 interface FormData {
+  price: number | null;
   title: string;
   description: string;
-  price: string;
-  photo: string;
+  location: string;
+  postedAt: string;
+  imageUrl?: string;
 }
 
 interface UploadStatus {
@@ -23,8 +25,10 @@ const AdForm = () => {
   const [formData, setFormData] = useState<FormData>({
     title: '',
     description: '',
-    price: '',
-    photo: '',
+    price: null,
+    location: '',
+    postedAt: '',
+    imageUrl: '',
   });
 
   const navigate = useNavigate()
@@ -75,7 +79,8 @@ const AdForm = () => {
 
       setFormData((prev) => ({
         ...prev,
-        photo: data.secure_url,
+        imageUrl: data.secure_url,
+        
       }));
 
       setUploadStatus({ isLoading: false, error: null });
@@ -93,7 +98,7 @@ const AdForm = () => {
     setPreviewImage(null);
     setFormData((prev) => ({
       ...prev,
-      photo: '',
+      imageUrl: '',
     }));
   };
 
@@ -106,16 +111,20 @@ const AdForm = () => {
       toast.error('Please enter a description');
       return false;
     }
-    if (!formData.price.trim()) {
+    if (!formData.price) {
       toast.error('Please enter a price');
       return false;
     }
-    if (!formData.photo) {
+    if (!formData.imageUrl) {
       toast.error('Please upload a photo');
       return false;
     }
     if (isNaN(Number(formData.price))) {
       toast.error('Price must be a valid number');
+      return false;
+    }
+    if(!formData.location) {
+      toast.error('Please enter a location');
       return false;
     }
     
@@ -134,8 +143,11 @@ const AdForm = () => {
 
       const adData = {
         ...formData,
-        category: selectedCategory,
-        createdAt: new Date(),
+        postedAt: new Date().toLocaleDateString('en-US', {
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric'
+        })
       };
 
       await addDoc(collection(db, 'ads'), adData);
@@ -150,8 +162,10 @@ const AdForm = () => {
       setFormData({
         title: '',
         description: '',
-        price: '',
-        photo: '',
+        price: null,
+        location: '',
+        postedAt: '',
+        imageUrl: '',
       });
       setPreviewImage(null);
       navigate('/')
@@ -202,7 +216,6 @@ const AdForm = () => {
                   className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                   value={formData.title}
                   onChange={(e) => handleInputChange(e, 'title')}
-                  maxLength={70}
                 />
                 <p className="text-gray-500 text-sm mt-1">
                   Mention the key features of your item (e.g. brand, model, age, type)
@@ -218,11 +231,26 @@ const AdForm = () => {
                   className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:border-blue-500 h-32"
                   value={formData.description}
                   onChange={(e) => handleInputChange(e, 'description')}
-                  maxLength={4096}
                 />
                 <p className="text-gray-500 text-sm mt-1">
                   Include condition, features, and reason for selling
                   <span className="float-right">0 / 4096</span>
+                </p>
+              </div>
+
+              <div className="mb-6">
+                <label className="block text-gray-700 mb-2">
+                  Location <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                  value={formData.location}
+                  onChange={(e) => handleInputChange(e, 'location')}
+                />
+                <p className="text-gray-500 text-sm mt-1">
+                  Mention the key features of your item (e.g. brand, model, age, type)
+                  <span className="float-right">0 / 70</span>
                 </p>
               </div>
 
@@ -236,7 +264,7 @@ const AdForm = () => {
                   <input
                     type="number"
                     className="w-full p-3 pl-8 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
-                    value={formData.price}
+                    value={formData.price || ''}
                     onChange={(e) => handleInputChange(e, 'price')}
                   />
                 </div>
@@ -245,7 +273,6 @@ const AdForm = () => {
               <div>
                 <h2 className="text-lg font-bold text-gray-800 mb-4">UPLOAD PHOTO</h2>
                 <div className="grid grid-cols-2 gap-4">
-                  {/* Upload Button */}
                   <label className="flex flex-col items-center justify-center border border-dashed border-gray-300 rounded-lg h-32 cursor-pointer hover:border-gray-400">
                     <input type="file" accept="image/*" onChange={handlePhotoAdd} className="hidden" />
                     <div className="text-gray-500 text-center">

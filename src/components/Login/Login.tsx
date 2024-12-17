@@ -1,19 +1,26 @@
-// Login.tsx
 import React, { useContext } from "react";
 import mobile_icon from "../../assets/mobile.png";
 import google_logo from "../../assets/google_logo.png";
 import close from "../../assets/close.svg";
-import { AuthContext } from '../../Context/AuthContext'
+import { AuthContext } from '../../Context/AuthContext';
 
-const Login = ({ setIsOpenLogin }) => {
+interface LoginProps {
+  setIsOpenLogin: (isOpen: boolean) => void;
+}
+
+const Login: React.FC<LoginProps> = ({ setIsOpenLogin }) => {
   const authContext = useContext(AuthContext);
+
+  if (!authContext) {
+    throw new Error("AuthContext not wrapped");
+  }
 
   const { googleSignIn } = authContext;
 
   return (
     <div className="fixed inset-0 bg-black/70 overflow-hidden flex items-center justify-center p-4">
       <div className="w-full max-w-sm bg-white rounded-sm relative p-6">
-        <button onClick={() => setIsOpenLogin(false)}  className="absolute right-4 top-4 text-gray-500 hover:text-gray-700">
+        <button onClick={() => setIsOpenLogin(false)} className="absolute right-4 top-4 text-gray-500 hover:text-gray-700">
           <span className="text-xl">
             <img src={close} alt="Close" />
           </span>
@@ -28,6 +35,7 @@ const Login = ({ setIsOpenLogin }) => {
             />
           </span>
         </div>
+        
         <h2 className="text-md font-semibold text-center mb-11">
           Help us become one of the safest places to buy and sell
         </h2>
@@ -41,7 +49,7 @@ const Login = ({ setIsOpenLogin }) => {
           </button>
 
           <button
-            onClick={ () => googleSignIn(setIsOpenLogin) }
+            onClick={() => googleSignIn(setIsOpenLogin)}
             className="w-full py-3 px-4 border-2 border-gray-300 rounded-[4px] flex items-center space-x-2 hover:bg-gray-50 transition-colors"
           >
             <img src={google_logo} className="w-6" alt="Google Logo" />

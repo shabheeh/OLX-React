@@ -5,7 +5,7 @@ const Profile = () => {
 
   const auth = useAuth()
 
-  const menuItems = [
+  const menuItems: string[] = [
     'My ADS',
     'Buy Business Packages',
     'Bought Packages & Billing',
@@ -14,20 +14,16 @@ const Profile = () => {
     'Install OLX Lite app', 
   ];
 
+
   return (
     <div className="relative pt-14">
-      {/* Profile Button */}
-      
-        
-
-      {/* Dropdown Menu */}
         <div className="absolute right-4 w-72 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
           {/* Profile Section */}
           <div className="p-4 border-b border-gray-200">
             <div className="flex items-center space-x-3 mb-4">
               <div className="w-16 h-16 rounded-full bg-gray-200 overflow-hidden">
                 <img 
-                  src={ auth?.user?.photoURL}
+                  src={ auth?.user?.photoURL || "https://via.placeholder.com/50"}
                   alt="Profile" 
                   className="w-full h-full object-cover"
                 />

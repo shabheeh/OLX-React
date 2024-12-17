@@ -1,7 +1,11 @@
+import React from "react";
+interface CategoryModalProps {
+  onClose: () => void;
+  onCategorySelect: (category: string) => void;
+}
 
-
-export const CategoryModal = ({ onClose, onCategorySelect }) => {
-    const categories = [
+export const CategoryModal: React.FC<CategoryModalProps> = ({ onClose, onCategorySelect }) => {
+    const categories: string[] = [
         'Cars',
         'Properties',
         'Mobile Phones',

@@ -1,11 +1,11 @@
-import React from "react";
+
 import arrow from "../../assets/arrow.png"
 
 
 const Navbar1 = () => {
   return (
-    <div className="bg-white border-b shadow-sm py-1 ">
-      <div className="container py-1 mx-auto border-t flex items-center justify-center space-x-6 text-sm font-semibold text-gray-800">
+    <div className="bg-white border-b shadow-sm pb-1 pt-[75px] ">
+      <div className=" py-1 pl-32 border-t flex items-center space-x-6 text-sm font-semibold text-gray-800">
         <div className="">
           <button className="flex items-center space-x-2 text-black">
             <span className="font-bold">ALL CATEGORIES</span>

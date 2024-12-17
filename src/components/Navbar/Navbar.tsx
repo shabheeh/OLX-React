@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import sell_button from "../../assets/sell_btn.png";
 import olx_icon from "../../assets/olx.png"
 import arrow from "../../assets/arrow.png"
@@ -38,7 +38,7 @@ const Navbar = () => {
 
   return (
     <>
-    <div className="flex px-3 pt-2 bg-gray-100 w-screen items-center space-x-4">
+    <div className="flex fixed px-3 z-50 pt-2 bg-gray-100 w-screen items-center space-x-4">
 
       <div>
         <a href="">
