@@ -65,6 +65,7 @@ const AdForm = () => {
       const formData = new FormData();
       formData.append('file', file);
       formData.append('upload_preset', 'dih8zu3u');
+
      
       const response = await fetch(`https://api.cloudinary.com/v1_1/dvhwjy5mn/image/upload`, {
         method: 'POST',
